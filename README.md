@@ -47,7 +47,7 @@ playwright-automation-framework
 ├── helpers
 ├── utils
 └── playwright.config.js
-```
+
 
 ---
 
