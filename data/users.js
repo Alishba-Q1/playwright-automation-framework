@@ -2,7 +2,7 @@
 export const USERS = {
 
 VALID_USER:{
-    email: 'zypitato@yopmail.com',
+    email: 'xavenenepa@yopmail.com',
     password: '12345678#ASdf'
 }, 
 
@@ -14,3 +14,4 @@ INVALID_USER:{
 
 
 };
+

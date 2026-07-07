@@ -34,4 +34,24 @@ async verifyPageHeading(headingText){
     const heading = this.page.locator('[data-test="page-title"]');
     await expect(heading).toHaveText(headingText);
 }
+
+async verifyLoginError(expectMessage){
+    const errorMessage = this.page.locator('.help-block');
+    await expect(errorMessage).toHaveText(expectMessage);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
