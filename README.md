@@ -6,12 +6,12 @@ A production-style Playwright automation framework built with JavaScript to auto
 
 ## Objectives
 
-- UI Automation
-- API Automation
-- Page Object Model
-- Playwright Fixtures
-- Data-Driven Testing
-- CI/CD using GitHub Actions
+- Build a scalable Playwright automation framework
+- Automate UI and API workflows
+- Follow Page Object Model (POM)
+- Implement Playwright Fixtures
+- Apply data-driven testing
+- Integrate CI/CD using GitHub Actions
 
 ## Tech Stack
 
@@ -23,4 +23,4 @@ A production-style Playwright automation framework built with JavaScript to auto
 
 ## Project Status
 
-🚧 Sprint 1 - Framework Foundation
+🚧 Sprint 1 – Framework Foundation
