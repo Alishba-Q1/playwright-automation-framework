@@ -2,25 +2,85 @@
 
 ## Overview
 
-A production-style Playwright automation framework built with JavaScript to automate the Practice Software Testing application.
+A production-style Playwright automation framework built with JavaScript to automate the **Practice Software Testing** application.
 
-## Objectives
+The project focuses on building a scalable, maintainable automation framework using industry best practices rather than creating isolated test scripts.
 
-- Build a scalable Playwright automation framework
-- Automate UI and API workflows
-- Follow Page Object Model (POM)
-- Implement Playwright Fixtures
-- Apply data-driven testing
-- Integrate CI/CD using GitHub Actions
+---
 
 ## Tech Stack
 
-- Playwright
-- JavaScript
-- Node.js
-- Git
-- GitHub
+* Playwright
+* JavaScript
+* Node.js
+* Git
+* GitHub
+
+---
+
+## Framework Design
+
+* Page Object Model (POM)
+* Test Data Management
+* Reusable Business Methods
+* Clean Test Structure (Arrange → Act → Assert)
+
+---
+
+## Current Project Structure
+
+playwright-automation-framework
+│
+├── data
+│   └── users.js
+│
+├── pages
+│   ├── HomePage.js
+│   ├── LoginPage.js
+│   └── MyAccountPage.js
+│
+├── tests
+│   └── login.spec.js
+│
+├── docs
+├── fixtures
+├── helpers
+├── utils
+└── playwright.config.js
+```
+
+---
+
+## Implemented Features
+
+### Sprint 1 – Story 1
+
+* User Login with valid credentials
+* Home Page Object
+* Login Page Object
+* My Account Page Object
+* Externalized user test data
+* End-to-end login automation
+
+---
+
+## Upcoming Features
+
+* Invalid Login
+* Product Search
+* Product Filters
+* Product Details
+* Shopping Cart
+* Checkout
+* API Automation
+* CI/CD with GitHub Actions
+* Reporting
+* Parallel Execution
+
+---
 
 ## Project Status
 
-🚧 Sprint 1 – Framework Foundation
+🚧 In Progress
+
+Current Sprint: **Sprint 1**
