@@ -53,14 +53,16 @@ playwright-automation-framework
 
 ## Implemented Features
 
-### Sprint 1 – Story 1
+### Sprint 1 – Authentication Module
 
-* User Login with valid credentials
+* User login with valid credentials
+* User login with invalid credentials
 * Home Page Object
 * Login Page Object
 * My Account Page Object
 * Externalized user test data
-* End-to-end login automation
+* Shared test setup using `beforeEach()`
+* Clean Page Object Model implementation
 
 ---
 
