@@ -6,12 +6,16 @@ import { expect } from '@playwright/test';
     constructor(page){
         this .page = page;
         this.signInButton = page.locator( '[data-test = "nav-sign-in"]');
-        this.productCards = page.locator('[data-test ^= "product-"]');
+        this.productCards = page.locator('a[data-test ^= "product-"]');
 
         this.searchInput = page.locator('#search-query');
         this.searchButton = page.locator('[data-test="search-submit"]');
 
         this.productNames = page.locator('[data-test ="product-name"] ');  //collection
+
+        this.ecoFriendlyCheckbox = page.locator('[data-test="eco-friendly-filter"]');
+
+        this.ecoBadges = page.locator('[data-test="eco-badge"]');
     }
 
     async open(){
@@ -64,4 +68,23 @@ async verifySearchResults(searchTerm)
 
     }
 }
+
+    async filterEcoFriendlyProducts()
+    {
+       await this.ecoFriendlyCheckbox.check();
+    }
+
+    async verifyOnlyEcoFriendlyProductsDisplayed() {
+
+    const productCount = await this.productCards.count();
+    const ecoBadgeCount = await this.ecoBadges.count();
+
+    console.log("Product Count:", productCount);
+    console.log("Eco Badge Count:", ecoBadgeCount);
+
+    expect(productCount).toBeGreaterThan(0);
+    expect(ecoBadgeCount).toEqual(productCount);
+}
+
+
  };
