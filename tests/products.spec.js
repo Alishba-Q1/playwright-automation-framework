@@ -1,35 +1,24 @@
 
-import {test} from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { ProductDetailsPage } from '../pages/ProductDetailsPage';
+import { test } from '../fixtures/base.fixture';
 
-test.beforeEach(async ({ page }) => {
-    const homePage = new HomePage(page);
+test.beforeEach(async ({ homePage }) => {
     await homePage.open();
 });
 
-test('User should see products on the home page', async ({page})=> {
-
-    const homePage = new HomePage(page);
+test('User should see products on the home page', async ({homePage})=> {
 
     await homePage.verifyLandingPageLoaded();
     await homePage.verifyProductsDisplayed();
 });
 
-
-test ('User should be able to search products', async ({page}) => {
-
-    const homePage = new HomePage(page);
+test ('User should be able to search products', async ({homePage}) => {
 
     await homePage.searchProduct('Pliers');
     await homePage.verifySearchResults('Pliers');
 
 });
 
-test('User should be able to filter eco-friendly products', async ({ page }) => {
-
-    // Arrange
-    const homePage = new HomePage(page);
+test('User should be able to filter eco-friendly products', async ({ homePage }) => {
 
     // Act
     await homePage.filterEcoFriendlyProducts();
@@ -39,20 +28,7 @@ test('User should be able to filter eco-friendly products', async ({ page }) => 
 
 });
 
-
-test('Filter products by category', async ({ page }) => {
-     
-    const homePage = new HomePage(page);
-
-     await homePage.filterByCategory('Hammer');
-
-});
-
-test('User should be able to filter products by category', async ({ page }) => {
-
-    // Arrange
-    const homePage = new HomePage(page);
-    const productDetailsPage = new ProductDetailsPage(page);
+test('User should be able to filter products by category', async ({ homePage, productDetailsPage }) => {
 
     // Act
     await homePage.filterByCategory('Hammer');

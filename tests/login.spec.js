@@ -1,25 +1,16 @@
 
 
-import {test} from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
-import { MyAccountPage } from '../pages/MyAccountPage';
+import { test } from '../fixtures/base.fixture';
 
 import { USERS } from '../data/users';
 //contains only the setup common to every test
-test.beforeEach(async ({ page }) => {
-    const homePage = new HomePage(page);
+test.beforeEach(async ({homePage}) => {
 
     await homePage.open();
     await homePage.navigateToLogin();
 });
 
-
- test('User should be able to login with valid credentials' , async ({page})=> {
-    //Arrange
-    const loginPage = new LoginPage(page);
-    const myAccountPage = new MyAccountPage(page);
-
+ test('User should be able to login with valid credentials' , async ({loginPage, myAccountPage})=> {
     //Act
     await loginPage.login(
         USERS.VALID_USER.email,
@@ -30,9 +21,8 @@ test.beforeEach(async ({ page }) => {
 
 });
 
-test('User should not be able to login with invalid credentials' , async ({page})=> {
-    //Arrange
-    const loginPage = new LoginPage(page);
+test('User should not be able to login with invalid credentials' , async ({loginPage})=> {
+
     //Act
     await loginPage.login(
         USERS.INVALID_USER.email,

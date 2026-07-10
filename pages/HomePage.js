@@ -94,7 +94,4 @@ async openFirstDisplayedProduct(){
     await this.productCards.first().click();
 }
 
-
-
-
  };
