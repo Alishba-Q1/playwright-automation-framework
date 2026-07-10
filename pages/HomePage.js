@@ -86,5 +86,15 @@ async verifySearchResults(searchTerm)
     expect(ecoBadgeCount).toEqual(productCount);
 }
 
+async filterByCategory(categoryName){
+    await this.page.getByLabel(categoryName).check();
+}
+
+async openFirstDisplayedProduct(){
+    await this.productCards.first().click();
+}
+
+
+
 
  };
