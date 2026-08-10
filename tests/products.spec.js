@@ -32,6 +32,7 @@ test('User should be able to filter products by category', async ({ homePage, pr
 
     // Act
     await homePage.filterByCategory('Hammer');
+    
     await homePage.openFirstDisplayedProduct();
 
     // Assert
@@ -39,4 +40,95 @@ test('User should be able to filter products by category', async ({ homePage, pr
 
 });
 
+test('User should be able to view product details', async ({
+    homePage,
+    productDetailsPage
+}) => {
 
+    // Act
+    await homePage.openFirstDisplayedProduct();
+
+    // Assert
+    await productDetailsPage.verifyProductDetailsDisplayed();
+
+});
+
+test('User should be able to add a product to cart', async ({
+    homePage,
+    productDetailsPage
+}) => {
+
+    await homePage.openProduct('Slip Joint Pliers');
+
+    await productDetailsPage.setQuantity(3);
+    await productDetailsPage.addToCart();
+
+    await productDetailsPage.verifyCartBadge(3);
+
+});
+
+
+test('User should be able to view products in shopping cart', async ({
+    homePage,
+    productDetailsPage,
+    cartPage
+}) => {
+    // Arrange
+    await homePage.openProduct('Slip Joint Pliers');
+
+    // Act
+    await productDetailsPage.setQuantity(3);
+    await productDetailsPage.addToCart();
+    await productDetailsPage.openCart();
+
+    // Assert
+    await cartPage.verifyProductDisplayed('Slip Joint Pliers');
+
+});
+
+test('User should be able to update product quantity in shopping cart', async ({
+    homePage,
+    productDetailsPage,
+    cartPage
+}) => {
+
+    // Arrange
+    await homePage.openProduct('Slip Joint Pliers');
+
+    await productDetailsPage.setQuantity(1);
+    await productDetailsPage.addToCart();
+    await productDetailsPage.openCart();
+
+    // Act
+    const quantity = 3;
+
+    await cartPage.updateQuantity(quantity);
+
+    const unitPrice = await cartPage.getUnitPrice();
+
+    const expectedTotal = (unitPrice * quantity).toFixed(2);
+
+    // Assert
+    await cartPage.verifyLinePrice(expectedTotal);
+
+});
+
+test('User should be able to remove product from shopping cart', async ({
+    homePage,
+    productDetailsPage,
+    cartPage
+}) => {
+
+    // Arrange
+    await homePage.openProduct('Slip Joint Pliers');
+
+    await productDetailsPage.addToCart();
+    await productDetailsPage.openCart();
+
+    // Act
+    await cartPage.removeProduct();
+
+    // Assert
+    await cartPage.verifyCartIsEmpty();
+
+});

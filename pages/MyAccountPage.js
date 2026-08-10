@@ -5,7 +5,6 @@ export class MyAccountPage {
     constructor(page){
         this.page = page;
         this.accountHeading = page.locator('[data-test="page-title"]');
-    
     }   
 
     async verifyPageLoaded(){

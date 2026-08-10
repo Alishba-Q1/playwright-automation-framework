@@ -72,6 +72,7 @@ async verifySearchResults(searchTerm)
     async filterEcoFriendlyProducts()
     {
        await this.ecoFriendlyCheckbox.check();
+        await expect(this.ecoBadges.first()).toBeVisible();
     }
 
     async verifyOnlyEcoFriendlyProductsDisplayed() {
@@ -86,12 +87,29 @@ async verifySearchResults(searchTerm)
     expect(ecoBadgeCount).toEqual(productCount);
 }
 
-async filterByCategory(categoryName){
+async filterByCategory(categoryName) {
+     const firstProductBeforeFilter =
+        await this.productNames.first().textContent();
+
     await this.page.getByLabel(categoryName).check();
+
+    await expect.poll(async () => {
+        return await this.productNames.first().textContent();
+    }).not.toBe(firstProductBeforeFilter);
 }
 
 async openFirstDisplayedProduct(){
     await this.productCards.first().click();
 }
 
+async openProduct(productName) {
+
+    const product = this.page.locator('a.card').filter({
+        has: this.page.locator('[data-test="product-name"]', {
+            hasText: productName
+        })
+    });
+
+    await product.click();
+}
  };
