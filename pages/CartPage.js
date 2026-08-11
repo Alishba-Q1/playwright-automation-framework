@@ -19,8 +19,7 @@ import { expect } from '@playwright/test';
 
     this.removeProductButton = page.locator('a.btn.btn-danger');
 
-    this.emptyCartMessage = page.getByText(
-    'The cart is empty. Nothing to display.');
+    this.emptyCartMessage = page.getByText('The cart is empty. Nothing to display.');
 
 
 
@@ -56,4 +55,9 @@ async verifyCartIsEmpty() {
     await expect(this.emptyCartMessage).toBeVisible();
 }
 
+async proceedToCheckout() {
+    await this.proceedToCheckoutButton.click();
+
 }
+
+ }
