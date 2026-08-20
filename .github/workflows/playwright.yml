@@ -1,0 +1,31 @@
+name: Playwright Tests  #display name of the workflow in GitHub Actions
+
+on:
+  push:
+    branches: [main]  # Trigger the workflow on push events to the main branch
+  pull_request:
+    branches: [main] 
+
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4      
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm                     #optimization for faster builds by caching npm dependencies
+
+      - name: Install dependencies
+        run: npm ci                       #install dependencies using npm ci for a clean install usng lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npm test
