@@ -148,6 +148,7 @@ test('User should be able to proceed to checkout', async ({
 
     await productDetailsPage.addToCart();
     await productDetailsPage.openCart();
+    await productDetailsPage.verifyCartBadge(1);
     // Act
     await cartPage.proceedToCheckout();
 

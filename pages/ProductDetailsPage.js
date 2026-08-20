@@ -26,8 +26,7 @@ export class  ProductDetailsPage {
 
 async verifyProductDetailsDisplayed(){
     
-    await expect(this.productName).toBeVisible();
-     await expect(this.productName).toBeVisible();
+        await expect(this.productName).toBeVisible();
         await expect(this.productCategory).toBeVisible();
         await expect(this.productBrand).toBeVisible();
         await expect(this.productPrice).toBeVisible();

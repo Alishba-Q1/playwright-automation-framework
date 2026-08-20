@@ -9,16 +9,20 @@ test.beforeEach(async ({homePage}) => {
     await homePage.open();
     await homePage.navigateToLogin();
 });
-
- test('User should be able to login with valid credentials' , async ({loginPage, myAccountPage})=> {
-    //Act
-    await loginPage.login(
-        USERS.VALID_USER.email,
-        USERS.VALID_USER.password
-    );
+// test.step() usage 
+ test('User should be able to login with valid credentials' , 
+    async ({loginPage, registeredUser, myAccountPage})=> {
+    await test.step('Login with registered user', async() =>{
+            //Act
+        await loginPage.login(
+        registeredUser.email,
+        registeredUser.password
+        );
+    });
+     await test.step('Verify My Account page', async () => {
     //Assert
     await myAccountPage.verifyPageLoaded();
-
+     });
 });
 
 test('User should not be able to login with invalid credentials' , async ({loginPage})=> {

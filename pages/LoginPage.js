@@ -5,9 +5,10 @@ import { expect } from '@playwright/test';
 export class LoginPage {
 constructor(page){
     this.page = page;
-    this.emailField = page.locator ('#email')
-    this.passwordField = page.locator('#password');
-    this.loginButton = page.locator('.btnSubmit');
+    this.emailField = page.getByRole('textbox' , { 'name': 'Email address *'});
+    this.passwordField = page.getByRole('textbox' , { 'name': 'Password *'});
+    this.loginButton = page.getByRole('button' , { 'name': 'Login'});
+    this.registerLink = page.getByRole('link', {name: 'Register your account' });
 
 }
 
@@ -41,7 +42,10 @@ async verifyLoginError(expectMessage){
 }
 
 
-
+async navigateToRegister() {
+    await this.registerLink.click();
+    
+}
 
 
 
