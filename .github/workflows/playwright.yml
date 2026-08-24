@@ -25,7 +25,7 @@ jobs:
         run: npm ci                       #install dependencies using npm ci for a clean install usng lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: Run Playwright tests
         run: npm test
