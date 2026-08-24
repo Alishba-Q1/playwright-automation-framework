@@ -10,6 +10,7 @@ export class RegisterPage {
         this.countrySelect = page.locator('[data-test="country"]');
         this.postalCodeInput = page.locator('[data-test="postal_code"]');
         this.houseNumberInput = page.locator('[data-test="house_number"]');
+        this.streetInput = page.locator('[data-test="street"]');
         this.cityInput = page.locator('[data-test="city"]');
         this.stateInput = page.locator('[data-test="state"]');
         this.phoneInput = page.locator('[data-test="phone"]');
@@ -25,21 +26,21 @@ export class RegisterPage {
         await this.countrySelect.selectOption(user.country);
         await this.postalCodeInput.fill(user.postalCode);
         await this.houseNumberInput.fill(user.houseNumber);
-        await this.cityInput.fill(user.city);
-        await this.stateInput.fill(user.state);
+        await expect(this.streetInput).toHaveValue(/\S+/);
+        await expect(this.cityInput).toHaveValue(/\S+/);
+        await expect(this.stateInput).toHaveValue(/\S+/);
         await this.phoneInput.fill(user.phone);
         await this.emailInput.fill(user.email);
         await this.passwordInput.fill(user.password);
 
-        // await expect(this.registerButton).toBeVisible();
-        // await this.registerButton.click();
- await this.registerButton.click();
-
-await expect(
-    this.page.getByRole('heading', { name: 'Login' })
-).toBeVisible();
-
-await expect(this.page).toHaveURL(/\/auth\/login/);
+        const registrationResponse = this.page.waitForResponse(response =>
+            response.url().endsWith('/users/register') &&
+            response.request().method() === 'POST'
+        );
+        await this.registerButton.click();
+        expect((await registrationResponse).ok()).toBeTruthy();
+        await expect(this.page).toHaveURL(/\/auth\/login/);
+        await expect(this.page.getByRole('heading', { name: 'Login' })).toBeVisible();
 }
 }
 
