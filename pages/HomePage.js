@@ -45,6 +45,13 @@ import { expect } from '@playwright/test';
     {
     await this.searchInput.fill(productName);
     await this.clickSearchButton();
+
+    await expect.poll(async () => {
+        const names = await this.productNames.allTextContents();
+        return names.length > 0 && names.every(name =>
+            name.toLowerCase().includes(productName.toLowerCase())
+        );
+    }, { timeout: 10000 }).toBe(true);
     }
 
     async clickSearchButton()
@@ -72,7 +79,11 @@ async verifySearchResults(searchTerm)
     async filterEcoFriendlyProducts()
     {
        await this.ecoFriendlyCheckbox.check();
-        await expect(this.ecoBadges.first()).toBeVisible();
+        await expect.poll(async () => {
+            const productCount = await this.productCards.count();
+            const ecoBadgeCount = await this.ecoBadges.count();
+            return productCount > 0 && ecoBadgeCount === productCount;
+        }, { timeout: 10000 }).toBe(true);
     }
 
     async verifyOnlyEcoFriendlyProductsDisplayed() {
