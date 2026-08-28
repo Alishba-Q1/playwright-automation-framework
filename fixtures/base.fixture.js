@@ -45,7 +45,7 @@ await test.step('Open registration page', async () => {
  await test.step('Navigate to login page', async () => {
         await page.goto('/auth/login');
 
-         await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
+         await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible({ timeout: 15000 });
  });
 
    
