@@ -20,19 +20,6 @@ export class RegisterPage {
     }
 
     async register(user) {
-        let formReady = false;
-        for (let attempt = 0; attempt < 2 && !formReady; attempt++) {
-            try {
-                await expect(this.firstNameInput).toBeVisible({ timeout: 10000 });
-                formReady = true;
-            } catch (error) {
-                if (attempt === 1) {
-                    throw error;
-                }
-                await this.page.reload({ waitUntil: 'domcontentloaded' });
-            }
-        }
-
         await this.firstNameInput.fill(user.firstName);
         await this.lastNameInput.fill(user.lastName);
         await this.dobInput.fill(user.dob);
@@ -53,7 +40,7 @@ export class RegisterPage {
         await this.registerButton.click();
         expect((await registrationResponse).ok()).toBeTruthy();
         await expect(this.page).toHaveURL(/\/auth\/login/);
-        await expect(this.page.getByRole('heading', { name: 'Login' })).toBeVisible({ timeout: 15000 });
+        await expect(this.page.getByRole('heading', { name: 'Login' })).toBeVisible();
 }
 }
 
