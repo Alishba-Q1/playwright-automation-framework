@@ -3,6 +3,7 @@
 import { test } from '../fixtures/base.fixture';
 
 import { USERS } from '../data/users';
+  
 //contains only the setup common to every test
 test.beforeEach(async ({homePage}) => {
 
@@ -10,6 +11,13 @@ test.beforeEach(async ({homePage}) => {
     await homePage.navigateToLogin();
 });
 // test.step() usage 
+test.describe('Login with registered user', () => {
+
+    test.skip(
+        !!process.env.CI,
+        'Skipped in CI: registration flow is blocked by external security verification'
+    );
+    
  test('User should be able to login with valid credentials' , 
     async ({loginPage, registeredUser, myAccountPage})=> {
     await test.step('Login with registered user', async() =>{
@@ -22,7 +30,8 @@ test.beforeEach(async ({homePage}) => {
      await test.step('Verify My Account page', async () => {
     //Assert
     await myAccountPage.verifyPageLoaded();
-     });
+        });
+    });
 });
 
 test('User should not be able to login with invalid credentials' , async ({loginPage})=> {
