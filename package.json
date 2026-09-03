@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": { 
-    "test": "node --env-file=.env ./node_modules/@playwright/test/cli.js test",
-    "test:chromium": "node --env-file=.env ./node_modules/@playwright/test/cli.js test --project=chromium",
-    "test:headed": "node --env-file=.env ./node_modules/@playwright/test/cli.js test --headed",
-    "test:debug": "node --env-file=.env ./node_modules/@playwright/test/cli.js test --debug",
-    "test:ui": "node --env-file=.env ./node_modules/@playwright/test/cli.js test --ui",
-    "test:report": "node --env-file=.env ./node_modules/@playwright/test/cli.js show-report"
+    "test": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js test",
+    "test:chromium": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js test --project=chromium",
+    "test:headed": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js test --headed",
+    "test:debug": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js test --debug",
+    "test:ui": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js test --ui",
+    "test:report": "node --env-file-if-exists=.env ./node_modules/@playwright/test/cli.js show-report"
   },
   "keywords": [],
   "author": "",

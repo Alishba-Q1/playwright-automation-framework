@@ -10,6 +10,8 @@ jobs:
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ vars.BASE_URL || 'https://practicesoftwaretesting.com/' }}
 
     steps:
       - name: Checkout repository
@@ -18,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm                     #optimization for faster builds by caching npm dependencies
 
       - name: Install dependencies

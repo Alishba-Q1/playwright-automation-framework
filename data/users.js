@@ -15,7 +15,7 @@ INVALID_USER:{
 
 export function createTestUser() {
 
-    const uniqueId = Date.now();
+    const uniqueId = Date.now().toString();
 
     return {
         firstName: 'Test',
@@ -26,7 +26,7 @@ export function createTestUser() {
         houseNumber: '42',
         city: 'Lahore',
         state: 'Punjab',
-        phone: `0300${uniqueId.toString().slice(-7)}`,
+        phone: `0300${uniqueId.slice(-7)}`,
         email: `qa_${uniqueId}@yopmail.com`,
         password: 'PAserty12AS#weRR'
     };
