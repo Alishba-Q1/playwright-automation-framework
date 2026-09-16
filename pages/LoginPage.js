@@ -46,16 +46,4 @@ async navigateToRegister() {
     await this.registerLink.click();
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
 }
