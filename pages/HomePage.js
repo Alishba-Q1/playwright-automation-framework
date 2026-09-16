@@ -71,8 +71,16 @@ import { expect } from '@playwright/test';
     }
 
 async verifySearchResults(searchTerm) {
-    const matchingProducts = this.productNames.filter({ hasText: searchTerm });
-    await expect(matchingProducts.first()).toBeVisible();
+    const count = await this.productNames.count();
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+        const product = this.productNames.nth(i);
+        const productName = await product.textContent();
+
+        expect(productName).not.toBeNull();
+        expect(productName.toLowerCase()).toContain(searchTerm.toLowerCase());
+    }
 }
 
     async filterEcoFriendlyProducts()
