@@ -89,6 +89,7 @@ await loginPage.login(
     email,
     password
 );
+await expect(page).toHaveURL(/\/account/, { timeout: 10000 });
 // 5. Navigate to Favorites
 const myAccountPage = new MyAccountPage(page);
 

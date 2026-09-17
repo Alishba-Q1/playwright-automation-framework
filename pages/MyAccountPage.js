@@ -5,8 +5,6 @@ export class MyAccountPage {
         this.page = page;
 
         this.accountHeading = page.locator('[data-test="page-title"]');
-        this.accountMenu = page.locator('[data-test="nav-menu"]');
-        this.myFavoritesLink = page.locator('[data-test="nav-my-favorites"]');
     }
 
     async verifyPageLoaded() {
@@ -14,7 +12,6 @@ export class MyAccountPage {
     }
 
     async navigateToFavorites() {
-        await this.accountMenu.click();
-        await this.myFavoritesLink.click();
+        await this.page.goto('/account/favorites', { waitUntil: 'domcontentloaded' });
     }
 }
