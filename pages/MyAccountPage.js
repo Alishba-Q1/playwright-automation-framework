@@ -1,15 +1,17 @@
-
 import { expect } from '@playwright/test';
 
 export class MyAccountPage {
-    constructor(page){
+    constructor(page) {
         this.page = page;
-        this.accountHeading = page.locator('[data-test="page-title"]');
-    }   
 
-    async verifyPageLoaded(){
+        this.accountHeading = page.locator('[data-test="page-title"]');
+    }
+
+    async verifyPageLoaded() {
         await expect(this.accountHeading).toHaveText('My account');
     }
 
-
+    async navigateToFavorites() {
+        await this.page.goto('/account/favorites', { waitUntil: 'domcontentloaded' });
+    }
 }

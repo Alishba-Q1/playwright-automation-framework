@@ -13,10 +13,9 @@ INVALID_USER:{
 },
 };
 
-export function createTestUser() {
-
-    const uniqueId = Date.now().toString();
-
+export function createTestUser(testinfo) {
+    // const uniqueId = Date.now().toString();
+        const uniqueId = `${testinfo.parallelIndex}_${Date.now()}`;
     return {
         firstName: 'Test',
         lastName: 'Automation',
