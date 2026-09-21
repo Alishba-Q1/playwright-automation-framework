@@ -6,8 +6,8 @@ import { LoginPage } from '../pages/LoginPage';
 
 const authFile = 'playwright/.auth/user.json';
 
-setup('authenticate', async ({ page }) => {
-    const user = createTestUser();
+setup('authenticate', async ({ page }, testinfo) => {
+    const user = createTestUser(testinfo);
 
     const registerPage = new RegisterPage(page);
     const loginPage = new LoginPage(page);
