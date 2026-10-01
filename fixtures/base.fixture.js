@@ -27,12 +27,19 @@ export const test = base.extend({
         await use(new RegisterPage(page));
     },
 
-    registeredUser: async ({
-        page,
-        registerPage
-    }, use) => {
+    testUser: async ({}, use, testInfo) => {
+    const user = createTestUser(testInfo);
+    await use(user);
+},
 
-        const user = createTestUser();
+registeredUser: async ({ page, registerPage, testUser }, use) => {
+    const user = testUser;
+    // registeredUser: async ({
+    //     page,
+    //     registerPage
+    // }, use,testinfo) => {
+
+    //     const user = createTestUser(testinfo);
                                                          //test.step() usage
 await test.step('Open registration page', async () => {
         await page.goto('/auth/register');
@@ -47,9 +54,6 @@ await test.step('Open registration page', async () => {
 
          await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
  });
-
-   
-
         await use(user);
     },
 
@@ -64,7 +68,6 @@ await test.step('Open registration page', async () => {
     checkoutPage: async ({ page }, use) => {
         await use(new CheckoutPage(page));
     },
-
 
 });
 
