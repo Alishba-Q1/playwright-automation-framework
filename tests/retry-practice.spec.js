@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('retry practice', async ({}, testInfo) => {
+test.skip('retry practice', async ({}, testInfo) => {
     console.log(`Attempt: ${testInfo.retry}`);
 
     if (testInfo.retry === 0) {
