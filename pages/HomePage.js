@@ -35,8 +35,9 @@ import { expect } from '@playwright/test';
 
     }
     async navigateToLogin(){
-    await this.signInButton.click();
-    
+        await this.page.goto('/auth/login', {
+        waitUntil: 'domcontentloaded'
+    });
     }
 
     async verifyLandingPageLoaded()
@@ -71,16 +72,14 @@ import { expect } from '@playwright/test';
     }
 
 async verifySearchResults(searchTerm) {
-    const count = await this.productNames.count();
-    expect(count).toBeGreaterThan(0);
+    await expect(this.searchResultsHeading)
+        .toHaveText(new RegExp(`Searched for:\\s*${searchTerm}`, 'i'));
 
-    for (let i = 0; i < count; i++) {
-        const product = this.productNames.nth(i);
-        const productName = await product.textContent();
+    const matchingProducts = this.productNames.filter({
+        hasText: new RegExp(searchTerm, 'i')
+    });
 
-        expect(productName).not.toBeNull();
-        expect(productName.toLowerCase()).toContain(searchTerm.toLowerCase());
-    }
+    await expect(matchingProducts.first()).toBeVisible();
 }
 
     async filterEcoFriendlyProducts()

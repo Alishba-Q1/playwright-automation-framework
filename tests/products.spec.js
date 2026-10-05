@@ -200,7 +200,6 @@ test('User should be able to remove product from shopping cart', async ({
 
     // Assert
     await cartPage.verifyCartIsEmpty();
-
 });
 
 test('User should be able to proceed to checkout', async ({
@@ -219,9 +218,12 @@ test('User should be able to proceed to checkout', async ({
     await cartPage.proceedToCheckout();
 
     // Assert
-    await checkoutPage.verifySignInStepDisplayed();
-
+    await checkoutPage.verifyLoggedInCheckoutStepDisplayed();
+    await checkoutPage.proceedFromSignIn();
 });
+
+test.describe('Guest checkout', () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
 
 test('User should be able to continue checkout as guest', async ({
     homePage,
@@ -243,7 +245,7 @@ test('User should be able to continue checkout as guest', async ({
     );
 
     await checkoutPage.verifyGuestConfirmation();
-});
+    });
 
 test('User should be able to complete billing address', async ({
     homePage,
@@ -317,6 +319,8 @@ test('User should be able to select payment method and confirm order', async ({
     await checkoutPage.confirmationOrder();
 
     await checkoutPage.verifyPaymentSuccessful();
+});
+
 });
 
 // /////////////////////////////
