@@ -29,8 +29,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npm test
+      - name: Run Playwright CI gate
+        run: npm run test:ci
 
       - name: Upload Playwright artifacts
         if: ${{ !cancelled() }}

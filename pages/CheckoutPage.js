@@ -9,8 +9,8 @@ export class CheckoutPage {
         this.loginEmail = page.locator('[data-test="email"]');
         this.loginPassword = page.locator('[data-test="password"]');
         this.loginButton = page.locator('[data-test="login-submit"]');
+        this.signInProceedButton = page.locator('[data-test="proceed-2"]');
 
-        // Guest checkout
         // Guest checkout
         this.guestTab = page.locator('[href="#guest-tab"]');
         this.guestEmail = page.locator('[data-test="guest-email"]');
@@ -43,6 +43,12 @@ export class CheckoutPage {
         await expect(this.loginButton).toBeVisible();
     }
 
+    async verifyLoggedInCheckoutStepDisplayed() {
+    await expect(
+        this.page.getByText(/you are already logged in/i)
+    ).toBeVisible();
+}
+
     async continueAsGuest(email, firstName, lastName) {
     await this.guestTab.click();
 
@@ -59,6 +65,10 @@ async verifyGuestConfirmation() {
 
 async proceedFromGuest() {
     await this.guestProceedButton.click();
+}
+
+async proceedFromSignIn() {
+    await this.signInProceedButton.click();
 }
 
 async fillBillingAddress(country, postalCode, houseNumber) {

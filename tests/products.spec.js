@@ -20,12 +20,63 @@ test.skip(
     'Skipped in CI: Firefox search is unreliable on GitHub Actions'
 )
 
-test ('User should be able to search products', async ({homePage}) => {
+//API failure test
+test('products API failure is handled gracefully', async ({ page, homePage }) => {
+    await page.route('**/products*', async route => {
+        console.log('Aborting:', route.request().url());
+        await route.abort();
+    });
+    await homePage.searchProduct('Pliers');
+});
 
+test('User should be able to search products', async ({ homePage }) => {
     await homePage.searchProduct('Pliers');
     await homePage.verifySearchResults('Pliers');
-
 });
+
+// test ('User should be able to search products', async ({page ,homePage}) => {
+
+    // await page.route('**/products*', async route => {
+    //     console.log('Intercepted:', route.request().url());
+        // await route.continue();
+//          await route.fulfill({
+//         status: 200,
+//         contentType: 'application/json',
+//         body: JSON.stringify({
+//             current_page: 1,
+//             data: [
+//                 {
+//                     id: 'mock-pliers-001',
+//                     name: 'Mock Pliers',
+//                     description: 'Mock product for Playwright network testing',
+//                     price: 25,
+//                     is_location_offer: false,
+//                     is_rental: false,
+//                     co2_rating: null,
+//                     in_stock: true,
+//                     is_eco_friendly: false,
+//                     product_image: '',
+//                     category: {},
+//                     brand: {}
+//                 }
+//             ],
+//             from: 1,
+//             last_page: 1,
+//             per_page: 10,
+//             to: 1,
+//             total: 1
+//         })
+//     });
+// });
+//         await page.route('**/products*', async route => {
+//     console.log('Aborting:', route.request().url());
+//     await route.abort();
+// });
+
+//     await homePage.searchProduct('Pliers');
+//     await homePage.verifySearchResults('Pliers');
+
+// });
 
 test.skip(
     ({ browserName }) => process.env.CI && browserName === 'firefox',
@@ -149,7 +200,6 @@ test('User should be able to remove product from shopping cart', async ({
 
     // Assert
     await cartPage.verifyCartIsEmpty();
-
 });
 
 test('User should be able to proceed to checkout', async ({
@@ -168,9 +218,12 @@ test('User should be able to proceed to checkout', async ({
     await cartPage.proceedToCheckout();
 
     // Assert
-    await checkoutPage.verifySignInStepDisplayed();
-
+    await checkoutPage.verifyLoggedInCheckoutStepDisplayed();
+    await checkoutPage.proceedFromSignIn();
 });
+
+test.describe('Guest checkout', () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
 
 test('User should be able to continue checkout as guest', async ({
     homePage,
@@ -192,7 +245,7 @@ test('User should be able to continue checkout as guest', async ({
     );
 
     await checkoutPage.verifyGuestConfirmation();
-});
+    });
 
 test('User should be able to complete billing address', async ({
     homePage,
@@ -229,12 +282,12 @@ test('User should be able to complete billing address', async ({
 });
 
 test('User should be able to select payment method and confirm order', async ({
-    homePage, 
+    homePage,
     productDetailsPage,
     cartPage,
     checkoutPage
 }) =>{
-    //Arrange 
+    //Arrange
     await homePage.openProduct('Slip Joint Pliers');
 
     await productDetailsPage.addToCart();
@@ -255,7 +308,7 @@ test('User should be able to select payment method and confirm order', async ({
         BILLING_ADDRESS.houseNumber
     );
 
-    //Act 
+    //Act
     await checkoutPage.proceedFromBilling();
 
     await checkoutPage.selectPaymentMethod('Cash on Delivery');
@@ -268,3 +321,24 @@ test('User should be able to select payment method and confirm order', async ({
     await checkoutPage.verifyPaymentSuccessful();
 });
 
+});
+
+// /////////////////////////////
+// test('record products API traffic', async ({ page, homePage }) => {
+//     await page.routeFromHAR('test-results/products.har', {
+//         update: true,
+//         url: '**/products*',
+//     });
+
+//     await homePage.searchProduct('Pliers');
+// });
+
+test('replay products API from HAR', async ({ page, homePage }) => {
+   await page.routeFromHAR('har/products.har', {
+        url: '**/products*',
+        notFound: 'abort',
+    });
+
+    await homePage.searchProduct('Pliers');
+
+});

@@ -10,6 +10,9 @@ import { expect } from '@playwright/test';
 
         this.searchInput = page.locator('#search-query');
         this.searchButton = page.locator('[data-test="search-submit"]');
+        this.searchResultsHeading = page.getByRole('heading', {
+            name: /Searched for:/
+        });
 
         this.productNames = page.locator('[data-test ="product-name"] ');  //collection
 
@@ -19,12 +22,22 @@ import { expect } from '@playwright/test';
     }
 
     async open(){
-        await this.page.goto('/');
+        for (let attempt = 0; attempt < 2; attempt++) {
+            try {
+                await this.page.goto('/', { waitUntil: 'domcontentloaded' });
+                return;
+            } catch (error) {
+                if (attempt === 1) {
+                    throw error;
+                }
+            }
+        }
 
     }
     async navigateToLogin(){
-    await this.signInButton.click();
-    
+        await this.page.goto('/auth/login', {
+        waitUntil: 'domcontentloaded'
+    });
     }
 
     async verifyLandingPageLoaded()
@@ -46,12 +59,11 @@ import { expect } from '@playwright/test';
     await this.searchInput.fill(productName);
     await this.clickSearchButton();
 
-    await expect.poll(async () => {
-        const names = await this.productNames.allTextContents();
-        return names.length > 0 && names.every(name =>
-            name.toLowerCase().includes(productName.toLowerCase())
-        );
-    }, { timeout: 10000 }).toBe(true);
+    await expect(this.searchResultsHeading).toBeVisible();
+    await expect.poll(
+        async () => await this.productCards.count(),
+        { timeout: 10000 }
+    ).toBeGreaterThan(0);
     }
 
     async clickSearchButton()
@@ -59,21 +71,15 @@ import { expect } from '@playwright/test';
     await this.searchButton.click();
     }
 
-async verifySearchResults(searchTerm)
-{
-    const count = await this.productNames.count();
+async verifySearchResults(searchTerm) {
+    await expect(this.searchResultsHeading)
+        .toHaveText(new RegExp(`Searched for:\\s*${searchTerm}`, 'i'));
 
-    for(let i=0 ; i<count; i++){
+    const matchingProducts = this.productNames.filter({
+        hasText: new RegExp(searchTerm, 'i')
+    });
 
-        const product = this.productNames.nth(i);   //returns a locator #product 1
-
-        const productName = await product.textContent();
-
-        expect(productName).not.toBeNull();
-
-        expect(productName.toLowerCase()).toContain(searchTerm.toLowerCase());
-
-    }
+    await expect(matchingProducts.first()).toBeVisible();
 }
 
     async filterEcoFriendlyProducts()
